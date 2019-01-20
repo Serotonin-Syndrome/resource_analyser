@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div id="tools" th:fragment="tools">
+    <div class="button compile-button">Compile for RBVM</div>
+    <div class="compiled-area"></div>
+    <div class="button test-button">Run code</div>
+    <div class="button deploy-button">Deploy to the Fantom Network</div>
+    <div class="contract-toolbox">
+        <div class="method-button" data-action="total-supply">totalSupply(<span></span>)</div>
+        <div class="method-button" data-action="balance-of" data-args="address">balanceOf(<span></span>)</div>
+        <div class="method-button" data-action="transfer" data-args="from|to|amount">transfer(<span></span>)</div>
+    </div>
+</div>
+
+</body>
+</html>

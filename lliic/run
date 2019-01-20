@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+
+set -e
+
+opwd=$PWD
+
+cd -- "$(dirname "$(readlink "$0" || echo "$0")")"
+
+die() {
+    printf >&2 '%s\n' "$@"
+    exit 1
+}
+
+trace-run() {
+    printf >&2 '[*] %s\n' "$*"
+    "$@"
+}
+
+select-binary() {
+    local arg
+    for arg; do
+        command -v "$arg" && return
+    done
+    die "Found neither of: $*"
+}
+
+if (( $# != 1 )); then
+    die "USAGE: $0 <source file>"
+fi
+
+src=$1
+case "$src" in
+*.c)
+    CLANG_FLAGS="-std=c99 -DJUDGE"
+    COMPILE=1
+    ;;
+*.cpp|*.cxx)
+    CLANG_FLAGS="-std=c++11 -DJUDGE"
+    COMPILE=1
+    ;;
+*.ll)
+    COMPILE=0
+    ;;
+*)
+    die "Only .ll, .c, .cpp/.cxx files are supported."
+    ;;
+esac
+
+LLI=$(select-binary lli-7 lli-6.0 lli)
+CLANG=$(select-binary clang-7 clang-6.0 clang)
+
+# sanity checking
+lli_major=$($LLI -version | sed -rn 's/^\s*LLVM version ([0-9]+).*$/\1/p')
+clang_major=$($CLANG --version | sed -rn 's/^clang version ([0-9]+).*$/\1/p')
+dump-versions() {
+    echo >&2 "I: LLI path: $LLI"
+    echo >&2 "I: LLI major version: $lli_major"
+    echo >&2 "I: Clang path: $CLANG"
+    echo >&2 "I: Clang major version: $clang_major"
+}
+if (( lli_major != clang_major )); then
+    dump-versions
+    die "LLI version mismatches Clang version."
+fi
+if (( lli_major < 6 )); then
+    dump-versions
+    die "LLVM toolkit version < 6."
+fi
+if (( lli_major > 8 )); then
+    dump-versions
+    echo -n >&2 "W: LLVM toolkit is too new, expect problems. Continuing in:"
+    for i in 3 2 1; do
+        echo -n " $i"
+        sleep 1
+    done
+    echo
+fi
+
+base=${src%.*}
+base=${base##*/}
+
+case "$src" in
+/*) abs_src=$src ;;
+*) abs_src="$opwd/$src" ;;
+esac
+
+if [ report.c -nt report.ll ]; then
+    trace-run $CLANG -std=c99 -S -emit-llvm report.c
+    trace-run sed 's/$$report/.$report/g' -i report.ll
+fi
+
+if (( COMPILE )); then
+    trace-run $CLANG $CLANG_FLAGS -S -emit-llvm "$abs_src"
+    ll_file="$base".ll
+else
+    ll_file="$base".preproc.ll
+    trace-run cp -- "$abs_src" "$ll_file"
+fi
+
+trace-run sed -rf <(
+printf '%s\n' '
+/^target triple = ".*"$/a\
+@.$counter = internal global i64 0, align 8 \
+; Function Attrs: noinline nounwind optnone uwtable \
+define internal void @".$increment"(i64) #0 { \
+  %2 = alloca i64, align 8 \
+  store i64 %0, i64* %2, align 8 \
+  %3 = load i64, i64* %2, align 8 \
+  %4 = atomicrmw add i64* @.$counter, i64 %3 seq_cst \
+  ret void \
+} \
+; Function Attrs: noinline nounwind optnone uwtable \
+define internal i32 @".$profile"() #0 { \
+  %1 = alloca i32, align 4 \
+  %2 = call i32 @main() \
+  store i32 %2, i32* %1, align 4 \
+  %3 = load atomic volatile i64, i64* @.$counter seq_cst, align 8 \
+  call void @".$report"(i64 %3) \
+  %4 = load i32, i32* %1, align 4 \
+  ret i32 %4 \
+} \
+declare void @".$report"(i64) #1
+'
+    awk '{ print "/^ *(%[0-9]+ = )?" $1 " /i\\\ncall void @\".$increment\"(i64 " $2 ")" }' table
+) -i "$ll_file"
+
+trace-run $LLI -extra-module=report.ll -entry-function='.$profile' "$ll_file"

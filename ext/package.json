@@ -1,0 +1,78 @@
+{
+	"name": "llvm",
+	"displayName": "llvm",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.30.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Api configuration",
+			"properties": {
+				"llvm.useApiHref": {
+					"type": "string",
+					"default": "http://fantom-ide.axe.ru",
+					"description": "Api Href."
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "extension.culcgas",
+				"title": "Calculate gas usege"
+			},
+			{
+				"command": "extension.culcgascpp",
+				"title": "Calculate gas usege"
+			},
+			{
+				"command": "extension.culcgasc",
+				"title": "Calculate gas usege"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "extension.culcgas"
+				}
+			],
+			"explorer/context": [
+				{
+					"when": "resourceLangId == c",
+					"command": "extension.culcgasc"
+				},
+				{
+					"when": "resourceLangId == cpp",
+					"command": "extension.culcgascpp"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^3.1.4",
+		"vscode": "^1.1.25",
+		"tslint": "^5.8.0",
+		"@types/node": "^8.10.25",
+		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"@types/request": "^2.48.1",
+		"request": "^2.88.0"
+	}
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div id="tools" th:fragment="tools">
+    <div class="button calculate-gas-button">Estimate gas usage</div>
+    <!--<div class="tools-console-container">-->
+    <div class="tools-console">
+        <div class="tools-console-element tools-gas">Gas consumed: <span></span></div>
+        <div class="horizontal-glue"></div>
+        <div class="tools-console-element tools-memory">Memory used (total/peak): <span></span></div>
+        <div class="horizontal-glue"></div>
+        <div class="tools-console-label">stdout</div>
+        <div class="tools-console-element tools-stdout"></div>
+        <div class="horizontal-glue"></div>
+        <div class="tools-console-label">stderr</div>
+        <div class="tools-console-element tools-stderr"></div>
+    </div>
+    <!--</div>-->
+</div>
+
+</body>
+</html>

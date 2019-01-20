@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="fantom-favicon.png"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"/>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+<div id="header">
+    <img src="fantom-logo-3.png">
+    <span>Smart contract IDE</span>
+    <div></div>
+    <div>
+        <a href="/development" th:class="(${markup}=='development-page.html') ? current">Smart contracts</a>
+        <a href="/gas-usage" th:class="(${markup}=='gas-usage-page.html') ? current">Gas usage</a>
+    </div>
+    <div>
+        <a href="https://gitlab.com/bibloman/serial_hacking_fantom_rbvm">Source code</a>
+        <a href="https://gitlab.com/bibloman/serial_hacking_fantom_rbvm/blob/master/README.md">RBVM and IDE</a>
+        <a href="https://fantom.foundation">Fantom Foundation</a>
+    </div>
+</div>
+<div id="global-container">
+    <div id="files">
+        <div class="interface-header">Files</div>
+        <ul></ul>
+        <div class="button create-button">Create file</div>
+    </div>
+    <div id="code">
+        <div class="interface-header">Code editor</div>
+        <div id="editor"></div>
+        <th:block th:if="not ${disableConsole}">
+            <div class="horizontal-glue"></div>
+            <div id="console"></div>
+        </th:block>
+    </div>
+    <div class="vertical-glue"></div>
+    <div th:replace="${markup}::tools"></div>
+</div>
+
+<script src="main.js"></script>
+<th:block th:each="script : ${scripts}">
+    <script th:src="@{${script}}"></script>
+</th:block>
+
+</body>
+
+</html>
