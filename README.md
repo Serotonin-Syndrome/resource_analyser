@@ -85,8 +85,7 @@ So, we started to study each instruction and understand how complex is it and ho
 When all the algorithms have beed debugged, we’ve implemented the second part of the task: the plugins.
 
 We’ve chosen VS Code as the most famous IDE and this is how our plugin looks:
-<img src="/img/VSCodeView1.png">
-<img src="/img/VSCodeView2.png">
+<img src="/img/end3.gif?inline=false">
 
 # ИЗМЕНИТЬ НА НОРМАЛЬНЫЙ АДРЕС
 And here you can see the <a href="https://youtube.com/hello">live demo</a> and check out how cool it works in real life.
