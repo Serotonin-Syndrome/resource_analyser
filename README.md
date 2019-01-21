@@ -27,19 +27,19 @@ These are the two main points that you need to know in order to understand how o
 Our solution is based on a simulation and on the statistic analysis techniques. We execute a given smart contract and calculate parameters, such as memory and CPU usage. Obviously, the main contribution to the estimation of gas the usage is CPU.
 So, there are 42 main LLVM IR instructions:
 
-| command | weight || command | weight|| command | weight|| command | weight|
-|-----------|:---------:||--------|:---------:||-|:-:||-|:-:|
-|ret        |   37 ||  frem  |        23||icmp       |   2  ||fcmp        |  3
-|br         |   31 ||   and  |  1 ||switch     |   31 ||indirectbr |  31|
-|fneg       |   4  ||add        |   2||call       |   37 ||select      |  39|
-|fadd       |   4  ||sub        |   2||fsub       |   4  ||mul        |   4|
-|fmul       |   8  ||udiv       |   1||fpext      |   29 ||ptrtoint    | 1|
-|sdiv       |   1  ||fdiv       |   23||urem       |   11 ||srem       |   1|
-|shl        |   1  ||lshr        |  1||sext       |   1  ||fptoui      |  29|
-|ashr       |   1  ||or          |  1||xor        |   1  ||load        |  23|
-|store      |   23 ||getelementptr| 23||inttoptr   |   1  ||bitcast     |  1
-|trunc      |   39 ||zext        |  1||sitofp     |   29 |
-|fptosi     |   29 ||uitofp      |  29|
+| command   | weight | command         | weight| command    | weight| command     | weight|
+|:---------:|:------:|:---------------:|:-----:|:----------:|:-----:|:-----------:|:-----:|
+|ret        |   37 |  frem  |        23|icmp       |   2  |fcmp        |  3
+|br         |   31 |   and  |  1 |switch     |   31 |indirectbr |  31|
+|fneg       |   4  |add        |   2|call       |   37 |select      |  39|
+|fadd       |   4  |sub        |   2|fsub       |   4  |mul        |   4|
+|fmul       |   8  |udiv       |   1|fpext      |   29 |ptrtoint    | 1|
+|sdiv       |   1  |fdiv       |   23|urem       |   11 |srem       |   1|
+|shl        |   1  |lshr        |  1|sext       |   1  |fptoui      |  29|
+|ashr       |   1  |or          |  1|xor        |   1  |load        |  23|
+|store      |   23 |getelementptr| 23|inttoptr   |   1  |bitcast     |  1
+|trunc      |   39 |zext        |  1|sitofp     |   29 |
+|fptosi     |   29 |uitofp      |  29|
 |fptrunc     |  29|
 
 All these instructions have different weights, because of different complexity and resource consumption.
