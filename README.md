@@ -49,10 +49,10 @@ Here you can see the table with weights if you want to change some weights manua
 But here we want to make a remark: we think that Fantom developers should recalculate this weights according to the Fantom's infrastructure, because distributed systems and virtual machines are very different from the local machine and processor.
 
 # Solution
-So, to begin with we have put all the weights equal to one and try to test our estimator on some very simple examples, such as <a href="/examples/fib.c"> Hello, World! </a> and <a href="/examples/fib.c"> Non-recursive Fibonacci numbers </a>
+So, to begin with we have put all the weights equal to one and try to test our estimator on some very simple examples, such as <a href="/lliic/examples/fib.c"> Hello, World! </a> and <a href="/lliic/examples/fib.c"> Non-recursive Fibonacci numbers </a>
 Of course it works, but it does not work adequately with equal weights.
 
-So, we started to study each instruction and understand how complex is it and how costly will it execute them. Go through a lot of documentation and test a variaty of ratios, we finally have found a <a href="https://github.com/shdown/lliic/blob/master/lliic/table">*gold one*</a>.
+So, we started to study each instruction and understand how complex is it and how costly will it execute them. Go through a lot of documentation and test a variaty of ratios, we finally have found a <a href="/lliic/table">*gold one*</a>.
 
 When all the algorithms have beed debugged, we’ve implemented the second part of the task: the plugins.
 
