@@ -26,50 +26,22 @@ These are the two main points that you need to know in order to understand how o
 # Solution
 Our solution is based on a simulation and on the statistic analysis techniques. We execute a given smart contract and calculate parameters, such as memory and CPU usage. Obviously, the main contribution to the estimation of gas the usage is CPU.
 So, there are 42 main LLVM IR instructions:
-```
-ret           1
-br            1
-switch        1
-indirectbr    1
-fneg          1
-add           1
-fadd          1
-sub           1
-fsub          1
-mul           1
-fmul          1
-udiv          1
-sdiv          1
-fdiv          1
-urem          1
-srem          1
-frem          1
-shl           1
-lshr          1
-ashr          1
-and           1
-or            1
-xor           1
-load          1
-store         1
-getelementptr 1
-trunc         1
-zext          1
-sext          1
-fptoui        1
-fptosi        1
-uitofp        1
-sitofp        1
-fptrunc       1
-fpext         1
-ptrtoint      1
-inttoptr      1
-bitcast       1
-icmp          1
-fcmp          1
-call          1
-select        1
-```
+
+| command | weight || command | weight|| command | weight|| command | weight|
+|-----------|:---------:||--------|:---------:||-|:-:||-|:-:|
+|ret        |   37 ||  frem  |        23||icmp       |   2  ||fcmp        |  3
+|br         |   31 ||   and  |  1 ||switch     |   31 ||indirectbr |  31|
+|fneg       |   4  ||add        |   2||call       |   37 ||select      |  39|
+|fadd       |   4  ||sub        |   2||fsub       |   4  ||mul        |   4|
+|fmul       |   8  ||udiv       |   1||fpext      |   29 ||ptrtoint    | 1|
+|sdiv       |   1  ||fdiv       |   23||urem       |   11 ||srem       |   1|
+|shl        |   1  ||lshr        |  1||sext       |   1  ||fptoui      |  29|
+|ashr       |   1  ||or          |  1||xor        |   1  ||load        |  23|
+|store      |   23 ||getelementptr| 23||inttoptr   |   1  ||bitcast     |  1
+|trunc      |   39 ||zext        |  1||sitofp     |   29 |
+|fptosi     |   29 ||uitofp      |  29|
+|fptrunc     |  29|
+
 All these instructions have different weights, because of different complexity and resource consumption.
 The question how to calculate correct weights is very important because it immediately affect the correctness of a solution.
 Here you can see the table with weights if you want to change some weights manually. See how to test our solution locally in [this](#Installation) part of a documentation.
@@ -84,40 +56,43 @@ So, we started to study each instruction and understand how complex is it and ho
 
 When all the algorithms have beed debugged, we’ve implemented the second part of the task: the plugins.
 
-We’ve chosen VS Code as the most famous IDE and this is how our plugin looks:
+We’ve chosen VS Code as the most famous IDE and this is how our plugin looks
+<img src="/img/VSCodeView1.png">
+<img src="/img/VSCodeView2.png">
+
+ and the live demo is below (it may take a while to load this GIF):
 <img src="/img/end3.gif?inline=false">
 
-# ИЗМЕНИТЬ НА НОРМАЛЬНЫЙ АДРЕС
-And here you can see the <a href="https://youtube.com/hello">live demo</a> and check out how cool it works in real life.
 
-Moreover, we’ve studied the <a href="https://github.com/Fantom-foundation/serial_hacking_fantom_rbvm">November's winner solution</a>; during the first expert session with Fantom expert Samuel, we were allowed to use this open source solution and decided try to extend Fantom web smart contract IDE functionality. That is how the updated web IDE looks like.
+Moreover, we’ve studied the <a href="https://github.com/Fantom-foundation/serial_hacking_fantom_rbvm">November's winner solution</a>; during the first expert session with Fantom expert Samuel, we were allowed to use this open source solution and decided try to extend Fantom web smart contract IDE functionality. Why? Because you can not only develop code in your classical IDE, but also code in any time with any devices from all over the world. That is how the updated web IDE looks like.
 
 <img src="/img/FantomIDE.png">
+You can always check how does it work by yourself on our web-site: <a href="http://fantom-ide.axe.ru/gas-usage#helloworld.ll"> http://fantom-ide.axe.ru/gas-usage#helloworld.ll </a>.
 
-It is very simple but important, because all the main information is in one place: stdout, stderr, gas and memory usage. I think our project will help Fantom rise and attract more developers in their fast DAG ecosystem.
+
+It is very usable because all the main information is in one place: stdout, stderr, gas and memory usage. I think our project will help Fantom rise and attract more developers in their fast DAG ecosystem.
+
 # Installation
-
 ### Start smart contract IDE Using Docker
 Start docker.
 Run this commands in Console/Terminal
 
 ```
-# ИЗМЕНИТЬ НА НОРМАЛЬНЫЙ АДРЕС
-git clone https://gitlab.com/bibloman/serial_hacking_fantom_rbvm
+git clone https://gitlab.com/farwydi/lliic
 
+cd lliic
+```
 
-
-# ИЗМЕНИТЬ НА НОРМАЛЬНЫЙ АДРЕС
-cd serial_hacking_fantom_rbvm
-
+Now you need to start Docker and do this:
+```
 docker build -t fantom-ide .
 
 docker run -p 80:8080 -d fantom-ide
 ```
-After that, open `http://localhost:80` in your browser and you can see our Smart Contract IDE
+After that, open `http://localhost:80` in your browser and you can see Smart Contract IDE
 
 
-## Start VS Code extension using Docker
+### Start VS Code extension using Docker
 
 Build docker images:
 
@@ -129,7 +104,10 @@ Run docker:
 
 Change setting in vscode:
 <img src="/img/VSCodeSettings.png">
+Enjoy!
 
-````
-./run examples/fib.c
-````
+# Team
+
+Leonid Zharikov, @farwydi
+
+mentor: Glushenkov Ivan, @bibloman
