@@ -2,7 +2,7 @@
 
 The task was:
 <ul>
-    <li> To create a simulator for running smart contracts on a network and showing the potential new states of the network resultant.
+    <li> Create resource analyser/predictor, given smart contract—as LLVM IR—predict compute resource usage (Ethereum analogy: gas usage)
     <li> To develop a plugin for this estimator for Atom/VS Code/Jetbrains.
 </ul>
 
