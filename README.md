@@ -8,7 +8,7 @@ The task was:
 
 It means that we have a smart-contract in LLVM IR language and we need to understand how much memory and and CPU will it use after the deployment and according to this information understand how much gas should the deployment cost.
 
-There are two main ways to solve this task, the first one is to use static estimation (neural nets, k-neighbours, etc) and the second one is to create a simulator. We’ve studied both of them and decided that simulator will be more powerful, more efficient and more scalable solution for this task. Why? We explain our choice below.
+There are two main ways to solve this task, the first one is to use static estimation (neural nets, k-neighbours, etc) and the second one is to create a simulator. We’ve studied both of them and decided that simulator will be a more powerful, more efficient and more scalable solution for this task. Why? We explain our choice below.
 
 # Why?
 Let us explain why we have chosen simulator and not the neural network. We are proficient in machine learning but quick research revealed some strong problems. First and the most difficult one is the lack of the training data. According to our estimates, for neural net to be more efficient than our current solution there should be about 10000 different LLVM IR smart contracts with good code.
@@ -42,14 +42,14 @@ So, there are 42 main LLVM IR instructions:
 |fptosi     |   29 |uitofp      |  29|
 |fptrunc     |  29|
 
-All these instructions have different weights, because of different complexity and resource consumption.
-The question how to calculate correct weights is very important because it immediately affect the correctness of a solution.
-Here you can see the table with weights if you want to change some weights manually. See how to test our solution locally in [this](#Installation) part of a documentation.
+These instructions have different weights because of different complexity and resource consumption.
+The question how to calculate correct weights is very important because it immediately affects the correctness of a solution.
+Here you can see the table with weights, if you want to change some weights manually. See how to test our solution locally in [this](#Installation) part of a documentation.
 
 But here we want to make a remark: we think that Fantom developers should recalculate this weights according to the Fantom's infrastructure, because distributed systems and virtual machines are very different from the local machine and processor.
 
 # Solution
-So, to begin with we have put all the weights equal to one and try to test our estimator on some very simple examples, such as <a href="/lliic/examples/fib.c"> Hello, World! </a> and <a href="/lliic/examples/fib.c"> Non-recursive Fibonacci numbers </a>
+So, to begin with we have put all the weights equal to one and tried to test our estimator on some very simple examples, such as <a href="/lliic/examples/fib.c"> Hello, World! </a> and <a href="/lliic/examples/fib.c"> Non-recursive Fibonacci numbers </a>
 Of course it works, but it does not work adequately with equal weights.
 
 So, we started to study each instruction and understand how complex is it and how costly will it execute them. Go through a lot of documentation and test a variaty of ratios, we finally have found a <a href="/lliic/table">*gold one*</a>.
@@ -60,11 +60,11 @@ We’ve chosen VS Code as the most famous IDE and this is how our plugin looks
 <img src="/img/VSCodeView1.png">
 <img src="/img/VSCodeView2.png">
 
- and the live demo is below (it may take a while to load this GIF):
+ and the live demo is below (it might take a while to load this GIF):
 <img src="/img/end3.gif?inline=false">
 
 
-Moreover, we’ve studied the <a href="https://github.com/Fantom-foundation/serial_hacking_fantom_rbvm">November's winner solution</a>; during the first expert session with Fantom expert Samuel, we were allowed to use this open source solution and decided try to extend Fantom web smart contract IDE functionality. Why? Because you can not only develop code in your classical IDE, but also code in any time with any devices from all over the world. That is how the updated web IDE looks like.
+Moreover, we’ve studied the <a href="https://github.com/Fantom-foundation/serial_hacking_fantom_rbvm">November's winner solution</a>; during the first expert session with Fantom expert Samuel, we were allowed to use this open source solution and decided to try to extend Fantom web smart contract IDE functionality. Why? Because you can not only develop code in your classical IDE, but also code in any time with any devices from all over the world. That is how the updated web IDE looks like.
 
 <img src="/img/FantomIDE.png">
 You can always check how does it work by yourself on our web-site: <a href="http://fantom-ide.axe.ru/gas-usage#helloworld.ll"> http://fantom-ide.axe.ru/gas-usage#helloworld.ll </a>.
