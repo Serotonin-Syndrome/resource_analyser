@@ -110,4 +110,6 @@ Enjoy!
 
 Leonid Zharikov, @farwydi
 
+Mikhail Plakhov, @mike179
+
 mentor: Glushenkov Ivan, @bibloman
