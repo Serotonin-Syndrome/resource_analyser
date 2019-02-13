@@ -8,12 +8,12 @@ The task was:
 
 It means that we have a smart-contract in LLVM IR language and we need to understand how much memory and and CPU will it use after the deployment and according to this information understand how much gas should the deployment cost.
 
-There are two main ways to solve this task, the first one is to use static estimation (neuronets, k-neighbours, etc) and the second one is to create a simulator. We’ve studied both of them and decided that simulator will be more powerful, more efficient and more scalable solution for this task. Why? We explain our choice below.
+There are two main ways to solve this task, the first one is to use static estimation (neural nets, k-neighbours, etc) and the second one is to create a simulator. We’ve studied both of them and decided that simulator will be more powerful, more efficient and more scalable solution for this task. Why? We explain our choice below.
 
 # Why?
-Let us explain why we have chosen simulator and not the neuronet. We are proficient in the machine learning but quick research revealed some strong problems. First and the most difficult one is the lack of the training data. According to our estimates, for neuronet to be more efficient than our current solution there should be about 10000 different LLVM IR smart contracts with good code.
+Let us explain why we have chosen simulator and not the neural network. We are proficient in machine learning but quick research revealed some strong problems. First and the most difficult one is the lack of the training data. According to our estimates, for neural net to be more efficient than our current solution there should be about 10000 different LLVM IR smart contracts with good code.
 
-Second trouble is related to strong dependance between gas usage and VM architecture, so neuronet couldn’t take it into consideration and for another architecture we will need another neuronet and another data set.
+Second trouble is related to strong dependance between gas usage and VM architecture, so neural net couldn’t take it into consideration and for another architecture we will need another neural net and another data set.
 
 So, these two considerations bring us to the decision to use a simulator.
 
