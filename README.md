@@ -108,8 +108,11 @@ Enjoy!
 
 # Team
 
-Leonid Zharikov, @farwydi
+Leonid Zharikov, 
+Telegram: @farwydi
 
-Mikhail Plakhov, @mikhail179
+Mikhail Plakhov,
+Telegram:  @mikhail179
 
-mentor: Glushenkov Ivan, @bibloman
+mentor: Glushenkov Ivan,
+Telegram: @HackerIvan
